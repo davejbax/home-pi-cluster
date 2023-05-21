@@ -1,0 +1,75 @@
+version: '3.3'
+
+#
+# The Firefly III Data Importer will ask you for the Firefly III URL and a "Client ID".
+# You can generate the Client ID at http://localhost/profile (after registering)
+# The Firefly III URL is: http://app:8080
+#
+# Other URL's will give 500 | Server Error
+#
+
+services:
+  app:
+    image: fireflyiii/core:latest
+    hostname: app
+    networks:
+      - firefly_iii
+    restart: always
+    volumes:
+      - firefly_iii_upload:/srv/firefly/upload
+    env_file: .env
+    ports:
+      - '80:8080'
+    depends_on:
+      - db
+    logging:
+      driver: journald
+      options:
+        tag: firefly
+  db:
+    image: mariadb
+    hostname: fireflyiiidb
+    networks:
+      - firefly_iii
+    restart: always
+    env_file: .db.env
+    volumes:
+      - firefly_iii_db:/srv/firefly/mysql
+    logging:
+      driver: journald
+      options:
+        tag: firefly
+
+  importer:
+    image: fireflyiii/data-importer:latest
+    hostname: importer
+    networks:
+      - firefly_iii
+    restart: always
+    ports:
+      - '81:8080'
+    depends_on:
+      - app
+    env_file: .importer.env
+    logging:
+      driver: journald
+      options:
+        tag: firefly
+
+  cron:
+    image: alpine
+    command: sh -c "echo \"0 3 * * * wget -qO- http://app:8080/api/v1/cron/$${STATIC_CRON_TOKEN}\" | crontab - && crond -f -L /dev/stdout"
+    networks:
+      - firefly_iii
+    env_file: .cron.env
+    logging:
+      driver: journald
+      options:
+        tag: firefly
+volumes:
+   firefly_iii_upload:
+   firefly_iii_db:
+
+networks:
+  firefly_iii:
+    driver: bridge

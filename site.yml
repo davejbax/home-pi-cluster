@@ -1,0 +1,6 @@
+---
+- hosts: firefly
+  become: true
+  roles:
+    - geerlingguy.docker
+    - firefly

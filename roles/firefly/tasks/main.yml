@@ -1,0 +1,55 @@
+---
+- name: Create firefly group
+  ansible.builtin.group:
+    name: firefly
+    gid: 30000
+- name: Create firefly user
+  ansible.builtin.user:
+    name: firefly
+    comment: Firefly III user
+    uid: 30000
+    groups: firefly,docker
+    shell: /sbin/nologin
+- name: Set-up server directory tree
+  ansible.builtin.file:
+    path: '/srv/firefly/{{ item }}'
+    state: directory
+    mode: '0755'
+    owner: firefly
+    group: firefly
+  loop:
+    - docker
+    - mysql
+    - upload
+- name: Create docker-compose file
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: /srv/firefly/docker/docker-compose.yml
+    mode: '0644'
+    owner: firefly
+    group: firefly
+- name: Configure Firefly III
+  ansible.builtin.template:
+    src: '{{ item.src }}'
+    dest: '/srv/firefly/docker/{{ item.file }}'
+    mode: '0600'
+    owner: firefly
+    group: firefly
+  loop:
+    - { description: 'main app', file: '.env', src: 'config.env.j2' }
+    - { description: 'cron', file: '.cron.env', src: 'cron.env.j2' }
+    - { description: 'database', file: '.db.env', src: 'db-config.env.j2' }
+    - { description: 'data importer', file: '.importer.env', src: 'data-importer.env.j2' }
+- name: Create systemd service file
+  ansible.builtin.copy:
+    src: firefly.service
+    dest: /usr/lib/systemd/system/firefly.service
+    mode: '0644'
+    owner: root
+    group: root
+- name: Ensure the Firefly service is started and enabled
+  ansible.builtin.systemd:
+    name: firefly
+    daemon_reload: true
+    state: started
+    enabled: true
