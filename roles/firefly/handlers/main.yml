@@ -1,2 +1,5 @@
 ---
-# handlers file for firefly
+- name: Restart firefly
+  ansible.builtin.systemd:
+    name: firefly
+    state: restarted

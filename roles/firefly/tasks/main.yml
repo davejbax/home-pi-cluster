@@ -21,6 +21,7 @@
     - docker
     - mysql
     - upload
+    - secrets
 - name: Create docker-compose file
   ansible.builtin.template:
     src: docker-compose.yml.j2
@@ -28,6 +29,18 @@
     mode: '0644'
     owner: firefly
     group: firefly
+- name: Generate passwords
+  ansible.builtin.include_tasks:
+    file: generate-secret.yml
+  vars:
+    length: 32
+    path: '/srv/firefly/secrets/{{ item }}'
+    owner: firefly
+    group: firefly
+  loop:
+    - cron_token
+    - encryption_key
+    - db_password
 - name: Configure Firefly III
   ansible.builtin.template:
     src: '{{ item.src }}'
@@ -40,6 +53,7 @@
     - { description: 'cron', file: '.cron.env', src: 'cron.env.j2' }
     - { description: 'database', file: '.db.env', src: 'db-config.env.j2' }
     - { description: 'data importer', file: '.importer.env', src: 'data-importer.env.j2' }
+  notify: 'Restart firefly'
 - name: Create systemd service file
   ansible.builtin.copy:
     src: firefly.service

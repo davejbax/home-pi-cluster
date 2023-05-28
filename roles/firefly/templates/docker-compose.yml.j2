@@ -16,10 +16,11 @@ services:
       - firefly_iii
     restart: always
     volumes:
-      - firefly_iii_upload:/srv/firefly/upload
+      - firefly_iii_upload:/var/www/html/storage/upload
+      - /srv/firefly/secrets:/secrets
     env_file: .env
     ports:
-      - '80:8080'
+      - '{{ firefly_bind_address }}:{{ firefly_port }}:8080'
     depends_on:
       - db
     logging:
@@ -34,7 +35,8 @@ services:
     restart: always
     env_file: .db.env
     volumes:
-      - firefly_iii_db:/srv/firefly/mysql
+      - firefly_iii_db:/var/lib/mysql
+      - /srv/firefly/secrets:/secrets
     logging:
       driver: journald
       options:
@@ -45,9 +47,11 @@ services:
     hostname: importer
     networks:
       - firefly_iii
+    volumes:
+      - /srv/firefly/secrets:/secrets
     restart: always
     ports:
-      - '81:8080'
+      - '{{ importer_bind_address }}:{{ importer_port}}:8080'
     depends_on:
       - app
     env_file: .importer.env
@@ -67,8 +71,9 @@ services:
       options:
         tag: firefly
 volumes:
-   firefly_iii_upload:
-   firefly_iii_db:
+  firefly_iii_upload:
+  firefly_iii_db:
+  
 
 networks:
   firefly_iii:
