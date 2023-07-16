@@ -1,0 +1,7 @@
+---
+tailscale_cert_user: root
+tailscale_cert_group: root
+tailscale_cert_hostnames:
+  - '{{ inventory_hostname }}'
+tailscale_cert_cloudflare_token: changeme
+tailscale_cert_email: root@localhost

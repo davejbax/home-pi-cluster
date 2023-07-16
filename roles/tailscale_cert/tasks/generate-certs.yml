@@ -1,0 +1,65 @@
+---
+- name: Check if certbot Cloudflare plugin is installed
+  ansible.builtin.command:
+    cmd: 'snap list --color=never --unicode=never certbot-dns-cloudflare'
+  changed_when: false
+  register: tailscale_cert_certbot_cf_installed
+  ignore_errors: true
+
+- name: Install certbot Cloudflare plugin
+  ansible.builtin.include_tasks:
+    file: install-certbot-dns-cloudflare.yml
+  # when: tailscale_cert_certbot_cf_installed.rc != 0
+
+- name: Ensure certificate directory path exists
+  ansible.builtin.file:
+    path: '/etc/letsencrypt'
+    state: directory
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+
+- name: Write Cloudflare credentials file
+  ansible.builtin.template:
+    src: cloudflare.ini.j2
+    dest: /etc/letsencrypt/.cloudflare.ini
+    mode: '0600'
+    owner: 'root'
+    group: 'root'
+
+- name: Generate Tailscale certificate
+  ansible.builtin.command:
+    argv:
+      - certbot
+      - certonly
+      - -m
+      - '{{ tailscale_cert_email }}'
+      - --agree-tos
+      - --non-interactive
+      - --dns-cloudflare
+      - --dns-cloudflare-credentials
+      - /etc/letsencrypt/.cloudflare.ini
+      - --dns-cloudflare-propagation-seconds
+      - 60
+      - --domains
+      - '{{ item }}'
+    creates: '/etc/letsencrypt/live/{{ item }}/privkey.pem'
+  loop: '{{ tailscale_cert_hostnames }}'
+
+- name: Ensure Tailscale key has restrictive permissions
+  ansible.builtin.file:
+    path: '/etc/letsencrypt/live/{{ item }}/privkey.pem'
+    mode: '0600'
+    owner: '{{ tailscale_cert_user }}'
+    group: '{{ tailscale_cert_group }}'
+    state: file
+  loop: '{{ tailscale_cert_hostnames }}'
+
+- name: Ensure Tailscale cert has correct permissions
+  ansible.builtin.file:
+    path: '/etc/letsencrypt/live/{{ item }}/fullchain.pem'
+    mode: '0644'
+    owner: '{{ tailscale_cert_user }}'
+    group: '{{ tailscale_cert_group }}'
+    state: file
+  loop: '{{ tailscale_cert_hostnames }}'
