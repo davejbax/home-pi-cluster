@@ -1,0 +1,8 @@
+---
+nginx_config_vhosts:
+  localhost:
+    map:
+      - path: /test/
+        server: 127.0.0.1:1234
+    cert: null
+    key: null
