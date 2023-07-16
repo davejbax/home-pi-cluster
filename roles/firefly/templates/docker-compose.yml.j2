@@ -49,6 +49,7 @@ services:
       - firefly_iii
     volumes:
       - /srv/firefly/secrets:/secrets
+      - /srv/firefly/import:/import
     restart: always
     ports:
       - '{{ importer_bind_address }}:{{ importer_port}}:8080'
@@ -62,9 +63,11 @@ services:
 
   cron:
     image: alpine
-    command: sh -c "echo \"0 3 * * * wget -qO- http://app:8080/api/v1/cron/$${STATIC_CRON_TOKEN}\" | crontab - && crond -f -L /dev/stdout"
+    command: sh -c "set -o pipefail; echo \"0 3 * * * wget -qO- http://app:8080/api/v1/cron/$$(cat $${STATIC_CRON_TOKEN_FILE} | tr -d '\n')\" | crontab - && crond -f -L /dev/stdout"
     networks:
       - firefly_iii
+    volumes:
+      - /srv/firefly/secrets:/secrets
     env_file: .cron.env
     logging:
       driver: journald

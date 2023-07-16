@@ -2,9 +2,14 @@
 firefly_email_address: admin@localhost
 
 # Must not have a trailing slash
-firefly_url: http://localhost/
+firefly_url: http://localhost
 
 firefly_bind_address: 127.0.0.1
 firefly_port: 7871
 importer_bind_address: 127.0.0.1
 importer_port: 7872
+
+firefly_nordigen_id: ''
+firefly_nordigen_key: ''
+
+firefly_auto_import_token: CREATE_ME_IN_INTERFACE

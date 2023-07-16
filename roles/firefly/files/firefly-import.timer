@@ -1,0 +1,10 @@
+[Unit]
+Description=Runs Firefly III data-importer on a twice daily basis
+Requires=firefly-import.service
+
+[Timer]
+OnCalendar=*-*-* 0/12:00:00
+Unit=firefly-import.service
+
+[Install]
+WantedBy=timers.target

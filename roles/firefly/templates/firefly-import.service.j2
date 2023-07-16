@@ -1,0 +1,9 @@
+[Unit]
+Description=Automatically import data into Firefly III
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/bash -c 'curl --fail --location --request POST --data-urlencode "secret=$(cat /srv/firefly/secrets/auto_import)" "http://{{importer_bind_address}}:{{importer_port}}/autoimport?directory=/import"'
+
+[Install]
+WantedBy=multi-user.target

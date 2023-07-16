@@ -22,6 +22,7 @@
     - mysql
     - upload
     - secrets
+    - import
 - name: Create docker-compose file
   ansible.builtin.template:
     src: docker-compose.yml.j2
@@ -41,6 +42,7 @@
     - cron_token
     - encryption_key
     - db_password
+    - auto_import
 - name: Configure Firefly III
   ansible.builtin.template:
     src: '{{ item.src }}'
@@ -54,10 +56,20 @@
     - { description: 'database', file: '.db.env', src: 'db-config.env.j2' }
     - { description: 'data importer', file: '.importer.env', src: 'data-importer.env.j2' }
   notify: 'Restart firefly'
-- name: Create systemd service file
+- name: Create static systemd units
   ansible.builtin.copy:
-    src: firefly.service
-    dest: /usr/lib/systemd/system/firefly.service
+    src: '{{ item }}'
+    dest: '/usr/lib/systemd/system/{{ item }}'
+    mode: '0644'
+    owner: root
+    group: root
+  loop:
+    - firefly.service
+    - firefly-import.timer
+- name: Create templated systemd units
+  ansible.builtin.template:
+    src: firefly-import.service.j2
+    dest: /usr/lib/systemd/system/firefly-import.service
     mode: '0644'
     owner: root
     group: root
@@ -66,4 +78,9 @@
     name: firefly
     daemon_reload: true
     state: started
+    enabled: true
+- name: Ensure the Firefly autoimport timer is enabled
+  ansible.builtin.systemd:
+    name: firefly-import.timer
+    daemon_reload: true
     enabled: true
