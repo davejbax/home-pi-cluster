@@ -1,6 +1,10 @@
 ---
-- hosts: firefly
+- name: Set-up Firefly III
+  hosts: firefly
   become: true
   roles:
+    - geerlingguy.certbot
+    - tailscale_cert
+    - nginx_config
     - geerlingguy.docker
     - firefly

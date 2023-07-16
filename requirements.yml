@@ -1,2 +1,4 @@
 ---
 - src: geerlingguy.docker
+- src: geerlingguy.certbot
+- src: nginxinc.nginx
