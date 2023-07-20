@@ -60,8 +60,8 @@ clone_repo() {
 create_user() {
   local user=${1}
   useradd -m "${user}" ||:
+  adduser "${user}" sudo ||:
   install_ssh_key "/home/${user}"
-
 }
 
 user_main() {
