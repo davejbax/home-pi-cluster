@@ -20,11 +20,15 @@ is_root() {
 
 install_ssh_key() {
   local dir=${1}
+  local user=${2}
   echo -e "${emoji_key} ${col_white}Adding SSH key into '${dir}'...${col_reset}"
   mkdir -p "${dir}/.ssh"
   cat <<EOF >>"${dir}/.ssh/authorized_keys"
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDDxaRkhRcTsRRCTPPWyTExN6i2IXAalN8bXXTYCM2z3/cGN23jc6iQB8q3wPsqEnAWAJD2fY8o6fvTmTfx2Oc5g33qmvWLSXR8XpWDIpoMpLdjPDVnc3WaYd7aIc0elm3XgI3S8kpPT7drWdIuZJnoOsdAAU4C/CPOb6BGCmhJtnzuWQJH/2pPktlQLhow1r5XcoOCKSeBVTEfMik3tJrVh+4WNABJJDMBe4M/PVXHsrHLSXD9KFE+2o+BRnEk8DXQgRBgfL07b7alesXcYTk+JNSs0nvCbUGuQpXOcxGHrbN24jx8g8pVNfTnNaWkIWfrFxW3BlXuF+6BVyKtt+7j7u4+6Ig3+a2/xua8jVaCmkJuVasWCP0/485h9VX41SeC8WChcE1V8eOtrieMXtuYAMODxiQ7pW6lSg+DeqklFa8EyJbEhBLJxkAyRCYkTi2ZBmcxpYV0Iw4btuOukUMaKmVMJ2z4pU46kHdNCKBNMIFyDbZuhAGjItLqjWroQHQab8gxOB2udFUxhYOliOVmROtBeN7lMLqS5f27u/DxEeYexW5VtoUu0eKzt8AZEzFMEB9T1OnogrllaLVZL+xx5M6/OrXHwRfQ1d0Yb5Fta0WzfxsQZrtbFudVZ12Ltyj3yf8NjG9e3rGmtICQESKjiT6i3cVyH1xX794cE1oEIQ== davejbax@gmail.com
 EOF
+  chown -R "${user}:${user}" "${dir}/.ssh"
+  chmod 0700 "${dir}/.ssh"
+  chmod 0600 "${dir}/.ssh/authorized_keys"
 }
 
 install_server_deps() {
@@ -63,7 +67,7 @@ create_user() {
   echo -e "${emoji_person} Creating user '${user}'"
   useradd -m "${user}" ||:
   adduser "${user}" sudo ||:
-  install_ssh_key "/home/${user}"
+  install_ssh_key "/home/${user}" "${user}"
 }
 
 user_main() {
@@ -83,7 +87,7 @@ main() {
 
     echo -e "Bootstrapping Pi ${col_bold}${type}${col_reset} node"
 
-    install_ssh_key /root
+    install_ssh_key /root root
     update_apt
 
     if [[ "${type}" == "server" ]]; then
