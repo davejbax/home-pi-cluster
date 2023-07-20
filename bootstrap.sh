@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Run this with:
+# apt install -y wget && wget https://raw.githubusercontent.com/davejbax/home-pi-cluster/main/bootstrap.sh && ./bootstrap.sh <server|agent>
 set -euo pipefail
 
 col_bold="\e[1m"
@@ -89,7 +91,8 @@ main() {
       # Hack: work out script path, as the user will be in their home directory
       local script_path
       script_path="$(realpath "${0}")"
-      sudo -i -u "${user}" "${script_path}" user
+      cp "${script_path}" /tmp/bootstrap.sh
+      sudo -i -u "${user}" /tmp/bootstrap.sh user
     fi
   else
     user_main
