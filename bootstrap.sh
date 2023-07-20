@@ -65,8 +65,9 @@ clone_repo() {
 create_user() {
   local user=${1}
   echo -e "${emoji_person} Creating user '${user}'"
-  useradd -m "${user}" ||:
+  useradd -m "${user}" -s /bin/bash ||:
   adduser "${user}" sudo ||:
+
   install_ssh_key "/home/${user}" "${user}"
 }
 
