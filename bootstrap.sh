@@ -12,6 +12,7 @@ emoji_robot="\xF0\x9F\xA4\x96"
 emoji_package="\xF0\x9F\x93\xA6"
 emoji_clone="\xF0\x9F\x90\x91"
 emoji_apple="\xF0\x9F\x8D\x8E"
+emoji_person="\xF0\x9F\x95\xB4"
 
 is_root() {
   [[ "${EUID}" -eq 0 ]]
@@ -59,6 +60,7 @@ clone_repo() {
 
 create_user() {
   local user=${1}
+  echo -e "${emoji_person} Creating user '${user}'"
   useradd -m "${user}" ||:
   adduser "${user}" sudo ||:
   install_ssh_key "/home/${user}"
