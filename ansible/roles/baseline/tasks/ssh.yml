@@ -1,0 +1,14 @@
+---
+- name: Install SSH key
+  ansible.posix.authorized_key:
+    state: present
+    user: '{{ item.name }}'
+    key: '{{ baseline_root_public_key }}'
+  loop: '{{ baseline_users + [{ "name": "root" }] }}'
+- name: Configure sshd
+  ansible.builtin.copy:
+    src: sshd_overrides.conf
+    dest: /etc/ssh/sshd_config.d/sshd_overrides.conf
+    owner: root
+    group: root
+    mode: '0644'

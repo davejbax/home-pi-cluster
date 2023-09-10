@@ -1,0 +1,5 @@
+---
+baseline_root_public_key: 'https://github.com/davejbax.keys'
+baseline_users:
+  - name: dave
+    password_hash: '$2b$05$J/WCFjT6MwOI9ofVa8zD0O9k3ob03uc5aGEldGENNrDjTyhnp8FiC'

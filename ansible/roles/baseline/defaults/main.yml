@@ -1,0 +1,9 @@
+---
+# Public SSH key to authorise for the root user and all users`
+baseline_root_public_key: 'public key or URL'
+
+# Sysadmin (sudoer) user accounts to create
+# To get password hashes, use mkpasswd(1)
+baseline_users:
+  - name: test
+    password_hash: '$2b$05$hGjChBtk9F2IMstSPHxES.i4GBERA7t2uhcGs40PW6gbg1W.v1TIq' # 'test'

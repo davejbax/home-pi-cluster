@@ -1,0 +1,10 @@
+---
+- name: Set up APT
+  ansible.builtin.import_tasks:
+    file: apt.yml
+- name: Create users
+  ansible.builtin.import_tasks:
+    file: users.yml
+- name: Configure SSH
+  ansible.builtin.import_tasks:
+    file: ssh.yml

@@ -1,0 +1,8 @@
+---
+# The GPIO pin (not physical pin) to which the fan is connected
+pwm_fan_gpio_pin: 18
+
+# The temperature at which the fan should be engaged at full speed.
+# At 10% below this temperature, the fan turns on.
+# Units are millidegree Celcius.
+pwm_fan_temp: 55000

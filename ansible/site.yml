@@ -1,10 +1,7 @@
 ---
-- name: Set-up Firefly III
-  hosts: firefly
+- name: Provision Raspberry Pi node
+  hosts: pis
   become: true
   roles:
-    - geerlingguy.certbot
-    - tailscale_cert
-    - nginx_config
-    - geerlingguy.docker
-    - firefly
+    - baseline
+    - pwm_fan

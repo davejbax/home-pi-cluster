@@ -1,0 +1,7 @@
+---
+- name: Add gpio-fan devicetree overlay
+  ansible.builtin.blockinfile:
+    path: /boot/firmware/config.txt
+    block: |
+      [all]
+      dtoverlay=gpio-fan,gpiopin={{ pwm_fan_gpio_pin }},temp={{ pwm_fan_temp }}

@@ -1,0 +1,19 @@
+---
+- name: Install fish
+  ansible.builtin.apt:
+    name: fish
+    state: present # We update all packages in apt.yml
+- name: Create groups
+  ansible.builtin.group:
+    name: '{{ item.name }}'
+    state: present
+  loop: '{{ baseline_users }}'
+- name: Create users
+  ansible.builtin.user:
+    name: '{{ item.name }}'
+    groups:
+      - '{{ item.name }}'
+      - sudo
+    password: '{{ item.password_hash }}'
+    shell: '/usr/bin/fish'
+  loop: '{{ baseline_users }}'
