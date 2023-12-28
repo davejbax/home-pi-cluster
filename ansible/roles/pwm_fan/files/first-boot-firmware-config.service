@@ -1,0 +1,10 @@
+[Unit]
+Description=Configure Raspberry Pi firmware config on first boot
+ConditionFirstBoot=yes
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/first-boot-firmware-config
+
+[Install]
+WantedBy=multi-user.target

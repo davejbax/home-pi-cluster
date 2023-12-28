@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+readonly canary='# Added by first-boot-firmware-config'
+readonly target_file='/boot/firmware/config.txt'
+readonly source_dir='/etc/firmware-config.d/'
+
+[[ -f "${target_file}" ]]
+
+if grep "${canary}" "${target_file}"; then
+  echo 'Exiting: found canary' >&2
+  exit 0
+fi
+
+echo "${canary}" >> "${target_file}"
+cat ${source_dir}/* >> "${target_file}"

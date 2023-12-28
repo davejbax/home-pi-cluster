@@ -1,7 +1,32 @@
 ---
+- name: Copy script
+  ansible.builtin.copy:
+    src: first-boot-firmware-config
+    dest: /usr/local/bin/first-boot-firmware-config
+    owner: root
+    group: root
+    mode: '0755'
+- name: Copy systemd unit file
+  ansible.builtin.copy:
+    src: first-boot-firmware-config.service
+    dest: /etc/systemd/system/first-boot-firmware-config.service
+    owner: root
+    group: root
+    mode: '0755'
+- name: Create config directory
+  ansible.builtin.file:
+    path: /etc/firmware-config.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
 - name: Add gpio-fan devicetree overlay
-  ansible.builtin.blockinfile:
-    path: /boot/firmware/config.txt
-    block: |
-      [all]
-      dtoverlay=gpio-fan,gpiopin={{ pwm_fan_gpio_pin }},temp={{ pwm_fan_temp }}
+  ansible.builtin.template:
+    src: gpio-fan.txt.j2
+    dest: /etc/firmware-config.d/gpio-fan.txt
+    mode: '0644'
+- name: Enable systemd unit
+  ansible.builtin.systemd_service:
+    name: first-boot-firmware-config
+    enabled: true
+    daemon_reload: true
