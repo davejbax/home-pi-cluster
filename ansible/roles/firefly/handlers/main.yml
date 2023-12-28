@@ -1,5 +1,0 @@
----
-- name: Restart firefly
-  ansible.builtin.systemd:
-    name: firefly
-    state: restarted
