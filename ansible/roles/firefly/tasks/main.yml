@@ -59,7 +59,7 @@
 - name: Create static systemd units
   ansible.builtin.copy:
     src: '{{ item }}'
-    dest: '/usr/lib/systemd/system/{{ item }}'
+    dest: '/etc/systemd/system/{{ item }}'
     mode: '0644'
     owner: root
     group: root
@@ -69,7 +69,7 @@
 - name: Create templated systemd units
   ansible.builtin.template:
     src: firefly-import.service.j2
-    dest: /usr/lib/systemd/system/firefly-import.service
+    dest: /etc/systemd/system/firefly-import.service
     mode: '0644'
     owner: root
     group: root
