@@ -20,7 +20,7 @@ source "arm" "debian" {
   file_unarchive_cmd = ["xz", "--keep", "--decompress", "$ARCHIVE_PATH"]
 
   image_build_method = "resize"
-  image_path = "raspi-4-debian-impi-${var.version}.img"
+  image_path = "raspi-4-impi-${var.version}-${var.role}.img"
   image_size = "7G"
 
   # We need to use MBR as the Pi uses an MBR scheme
@@ -67,10 +67,12 @@ build {
     extra_arguments = [
       "--connection=chroot",
       "-e", "ansible_host=/mnt/raspi-build",
+      "-e", "k3s_role=${var.role}",
+      "--vault-password-file=${var.vault_password_file}",
     ]
     inventory_file = "../ansible/inventory.ini"
     playbook_file = "../ansible/site.yml"
-    groups = ["pis"]
+    groups = ["pis", var.role] # XXX: don't think this does anything
     galaxy_file = "../ansible/requirements.yml"
   }
 }
