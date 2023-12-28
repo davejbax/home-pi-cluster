@@ -31,5 +31,5 @@ This repo contains a Packer image build configuration and Ansible Playbooks. The
 
 ```console
 foo@bar:~$ cd packer
-foo@bar:~$ ./build.sh
+foo@bar:~$ ./build.sh server # or 'agent' to build an agent image
 ```

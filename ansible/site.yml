@@ -5,3 +5,5 @@
   roles:
     - baseline
     - pwm_fan
+    - postgres
+    - k3s
