@@ -57,6 +57,10 @@ k3s_addons:
         name: in-cluster
       project: default
       source:
-        path: manifests
+        path: manifests/root
         repoURL: https://github.com/davejbax/home-pi-cluster.git
         targetRevision: main
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
