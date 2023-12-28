@@ -1,0 +1,4 @@
+apiVersion: v2
+name: root
+version: 0.0.0
+description: Root chart to create ApplicationSet from Git repository (implementing the ArgoCD app-of-apps paradigm)

@@ -33,6 +33,21 @@
     mode: '0644'
     owner: root
     group: root
+- name: Create addons directory
+  ansible.builtin.file:
+    path: /var/lib/rancher/k3s/server/manifests
+    state: directory
+    mode: '0700'
+    owner: root
+    group: root
+- name: Copy user addons
+  ansible.builtin.copy:
+    content: '{{ item.value }}'
+    dest: '/var/lib/rancher/k3s/server/manifests/{{ item.key }}'
+    mode: '0600'
+    owner: root
+    group: root
+  loop: '{{ k3s_addons | dict2items }}'
 - name: Enable k3s
   ansible.builtin.systemd:
     name: k3s.service

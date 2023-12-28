@@ -26,3 +26,37 @@ k3s_cluster_cidr_v4: '10.0.0.0/16'
 k3s_cluster_cidr_v6: 'fde6:addd:5088:0::/56'
 k3s_service_cidr_v4: '10.1.0.0/16'
 k3s_service_cidr_v6: 'fde6:addd:5088:1::/112'
+
+k3s_addons:
+  argo.yaml: |-
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+      name: argocd
+    ---
+    apiVersion: helm.cattle.io/v1
+    kind: HelmChart
+    metadata:
+      name: argocd
+      namespace: kube-system
+    spec:
+      repo: https://argoproj.github.io/argo-helm
+      chart: argo-cd
+      targetNamespace: argocd
+    ---
+    apiVersion: argoproj.io/v1alpha1
+    kind: Application
+    metadata:
+      name: root
+      namespace: argocd
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      destination:
+        namespace: argocd
+        name: in-cluster
+      project: default
+      source:
+        path: manifests
+        repoURL: https://github.com/davejbax/home-pi-cluster.git
+        targetRevision: main

@@ -16,3 +16,11 @@ k3s_service_cidr_v6: 'fde6:addd:5088:1::/112'
 
 # Endpoint for the datastore to use
 k3s_datastore_endpoint: 'postgres://username:password@localhost/database-name'
+
+# Any addons (manifests that will be auto-applied by K3s) to load
+k3s_addons:
+  example.yaml: |-
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+      name: example
