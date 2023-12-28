@@ -1,0 +1,29 @@
+- name: Configure Postgres - HBA
+  ansible.builtin.template:
+    src: pg_hba.conf.j2
+    dest: /etc/postgresql/14/main/pg_hba.conf
+    owner: postgres
+    group: postgres
+    mode: '0640'
+- name: Configure Postgres - Identies
+  ansible.builtin.template:
+    src: pg_ident.conf.j2
+    dest: /etc/postgresql/14/main/pg_ident.conf
+    owner: postgres
+    group: postgres
+    mode: '0644'
+- name: Configure Postgres - Main config
+  ansible.builtin.template:
+    src: postgres.conf.j2
+    dest: /etc/postgresql/14/main/conf.d/00-ansible.conf
+    owner: postgres
+    group: postgres
+    mode: '0644'
+- name: Enable Postgres service
+  ansible.builtin.systemd:
+    name: postgresql
+    enabled: true
+- name: Set-up bootstrapping
+  ansible.builtin.include_tasks:
+    file: server-bootstrap.yml
+  when: postgres_server_bootstrap|length > 0

@@ -1,0 +1,6 @@
+# MAPNAME       SYSTEM-USERNAME         PG-USERNAME
+{% for user in postgres_server_users %}
+{% for cn in user.cns %}
+{{user.name}} {{cn}} {{user.name}}
+{% endfor %}
+{% endfor %}

@@ -1,0 +1,31 @@
+---
+# CA cert/key for generating a certificate for the current node. These certs will
+# then be used for mTLS with the Postgres server.
+postgres_ca_cert: '<pem-encoded CA cert>'
+postgres_ca_key: '<pem-encoded CA private key>'
+
+# Prefix to be prepended to the CA's common name (CN) in order to form the CN
+# of the generated node certificate.
+postgres_cert_cn_prefix: 'server'
+
+# Unix group/owner of the generated node certificate.
+postgres_cert_group: postgres
+postgres_cert_owner: postgres
+
+# Whether to configure a Postgres server. If false, only certificate configuration
+# will be performed. If true, Postgres will be installed and configured.
+postgres_configure_server: true
+
+# An SQL script to run after the Postgres server starts for the first time. This
+# can be used to e.g. create databases and users.
+postgres_server_bootstrap: ''
+
+# Users to configure in pg_ident/pg_hba. Note that this will *not* create the
+# corresponding DB users, as the requirements/privileges of DB users are expected
+# to differ on a case-by-case basis. All users are authenticated with certificate
+# authentication, and must present a certificate signed by the CA with any of
+# the given `cns` (common names).
+postgres_server_users:
+  - name: test
+    databases: [test]
+    cns: [test.mydomain.com]

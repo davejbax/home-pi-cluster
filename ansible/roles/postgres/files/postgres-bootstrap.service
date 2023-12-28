@@ -1,0 +1,15 @@
+# TODO: use WantedBy= or Wants=?
+[Unit]
+Description=Run an SQL script to initialise Postgresql on first boot
+ConditionPathExists=!/var/lib/postgres-bootstrap/run.stamp
+After=postgresql.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/psql -f /var/lib/postgres-bootstrap/input.sql
+ExecStartPost=/usr/bin/touch /var/lib/postgres-bootstrap/run.stamp
+User=postgres
+Group=postgres
+
+[Install]
+WantedBy=postgresql.service

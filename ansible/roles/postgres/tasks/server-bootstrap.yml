@@ -1,0 +1,26 @@
+- name: Set-up bootstrap directory
+  ansible.builtin.file:
+    path: /var/lib/postgres-bootstrap
+    state: directory
+    owner: postgres
+    group: postgres
+    mode: '0755'
+- name: Create bootstrap SQL file
+  ansible.builtin.copy:
+    dest: /var/lib/postgres-bootstrap/input.sql
+    content: '{{ postgres_server_bootstrap }}'
+    owner: root
+    group: postgres
+    mode: '0640'
+- name: Create bootstrap service
+  ansible.builtin.copy:
+    src: postgres-bootstrap.service
+    dest: /etc/systemd/system/postgres-bootstrap.service
+    owner: root
+    group: root
+    mode: '0644'
+- name: Enable Postgres bootstrap service
+  ansible.builtin.systemd:
+    name: postgres-bootstrap.service
+    enabled: true
+    daemon_reload: true

@@ -1,0 +1,23 @@
+# DO NOT DISABLE!
+# If you change this first entry you will need to make sure that the
+# database superuser can access the database using some other method.
+# Noninteractive access to all databases is required during automatic
+# maintenance (custom daily cronjobs, replication, and similar tasks).
+#
+local   all             postgres                                peer
+
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+
+# "local" is for Unix domain socket connections only
+local   all             all                                     peer
+
+# Allow replication connections from localhost, by a user with the
+# replication privilege.
+local   replication     all                                     peer
+
+{% for user in postgres_server_users %}
+{% for database in user.databases %}
+hostssl {{database}} {{user.name}} 0.0.0.0/0 cert map={{user.name}} clientcert=verify-full
+hostssl {{database}} {{user.name}} ::0/0 cert map={{user.name}} clientcert=verify-full
+{% endfor %}
+{% endfor %}

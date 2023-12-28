@@ -1,0 +1,14 @@
+---
+# We may want to make use of the postgres user in cert configuration, so install first
+- name: Install Postgres
+  ansible.builtin.apt:
+    name: postgresql-14
+    state: present
+  when: postgres_configure_server
+- name: Configure certificates
+  ansible.builtin.include_tasks:
+    file: certs.yml
+- name: Configure server
+  ansible.builtin.include_tasks:
+    file: server.yml
+  when: postgres_configure_server
