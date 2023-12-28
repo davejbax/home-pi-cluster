@@ -1,0 +1,8 @@
+---
+cluster-cidr: '{{ k3s_cluster_cidr_v4 }},{{ k3s_cluster_cidr_v6 }}'
+service-cidr: '{{ k3s_service_cidr_v4 }},{{ k3s_service_cidr_v6 }}'
+
+# We can use host-gw as the Raspberry Pis will have L2 connectivity
+flannel-backend: host-gw
+
+datastore-endpoint: '{{ k3s_datastore_endpoint }}'

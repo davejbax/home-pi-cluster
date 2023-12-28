@@ -1,0 +1,18 @@
+---
+# Release version of K3s, which can be found at
+# https://github.com/k3s-io/k3s/releases
+k3s_release: 'v1.27.5+k3s1'
+k3s_binary_name: 'k3s'
+
+# Role assigned to the host; can be 'server' (i.e. the primary k3s
+# node) or 'agent' (secondary nodes)
+k3s_role: 'server'
+
+# CIDRs for the cluster (pods) and services.
+k3s_cluster_cidr_v4: '10.0.0.0/16'
+k3s_cluster_cidr_v6: 'fde6:addd:5088:0::/56'
+k3s_service_cidr_v4: '10.1.0.0/16'
+k3s_service_cidr_v6: 'fde6:addd:5088:1::/112'
+
+# Endpoint for the datastore to use
+k3s_datastore_endpoint: 'postgres://username:password@localhost/database-name'

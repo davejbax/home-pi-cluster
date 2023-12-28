@@ -1,0 +1,40 @@
+---
+# TODO: make proper firewall role
+- name: Disable UFW
+  ansible.builtin.lineinfile:
+    path: /etc/ufw/ufw.conf
+    regexp: '^ENABLED='
+    line: 'ENABLED=no'
+- name: Download K3s
+  ansible.builtin.get_url:
+    url: 'https://github.com/k3s-io/k3s/releases/download/{{ k3s_release | urlencode  }}/{{ k3s_binary_name }}'
+    dest: /usr/local/bin/k3s
+    mode: '0755'
+    owner: root
+    group: root
+- name: Create systemd unit file
+  ansible.builtin.template:
+    src: k3s.service.j2
+    dest: /etc/systemd/system/k3s.service
+    mode: '0644'
+    owner: root
+    group: root
+- name: Create config directories
+  ansible.builtin.file:
+    path: /etc/rancher/k3s/
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+- name: Configure k3s
+  ansible.builtin.template:
+    src: config.yaml.j2
+    dest: /etc/rancher/k3s/config.yaml
+    mode: '0644'
+    owner: root
+    group: root
+- name: Enable k3s
+  ansible.builtin.systemd:
+    name: k3s.service
+    enabled: true
+    daemon_reload: true
