@@ -1,4 +1,0 @@
-apiVersion: v2
-name: tailscale-expose
-description: Expose certain pre-existing resources to the Tailnet, so that they can be accessed via Tailscale
-version: 0.0.0

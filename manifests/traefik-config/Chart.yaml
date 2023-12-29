@@ -1,0 +1,4 @@
+apiVersion: v2
+name: traefik-config
+description: Helm chart configuration for Traefik, which comes bundled with K3s
+version: 0.0.0
