@@ -1,2 +1,3 @@
-apiServerProxyConfig:
-  mode: "true"
+tailscale-operator:
+  apiServerProxyConfig:
+    mode: "true"

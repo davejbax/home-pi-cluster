@@ -4,7 +4,7 @@ metadata:
   name: default
   namespace: vault-secrets-operator
 spec:
-  organizationID: {{ required "Must specify HCP organization ID (vsoConfig.hcpOrgID)" .Values.vsoConfig.hcpOrgID }}
-  projectID: {{ required "Must specify HCP project ID (vsoConfig.hcpProjectID)" .Values.vsoConfig.hcpProjectID }}
+  organizationID: {{ required "Must specify HCP organization ID (hcpOrgId)" .Values.hcpOrgId }}
+  projectID: {{ required "Must specify HCP project ID (hcpProjectId)" .Values.hcpProjectId }}
   servicePrincipal:
-    secretRef: {{ required "Must specify secret ref for service principal credentials (vsoConfig.servicePrincipalSecretRef)" .Values.vsoConfig.servicePrincipalSecretRef }}
+    secretRef: {{ required "Must specify secret ref for service principal credentials (servicePrincipalSecretRef)" .Values.servicePrincipalSecretRef }}
