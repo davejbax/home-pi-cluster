@@ -1,5 +1,5 @@
 apiVersion: v2
-name: victoria-metrics
+name: vm
 description: VictoriaMetrics stack containing Grafana, VM K8s operator, etc.
 version: 0.0.0
 
