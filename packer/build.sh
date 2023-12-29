@@ -14,13 +14,23 @@ if [[ -z "${ANSIBLE_VAULT_PASSWORD_FILE-}" ]]; then
   ANSIBLE_VAULT_PASSWORD_FILE="${temp_password_file}"
 fi
 
+if [[ -z "${HCP_CLIENT_ID-}" ]]; then
+  read -s -p "Hashicorp Cloud Platform client ID: " HCP_CLIENT_ID
+  export HCP_CLIENT_ID
+fi
+
+if [[ -z "${HCP_CLIENT_SECRET-}" ]]; then
+  read -s -p "Hashicorp Cloud Platform client secret: " HCP_CLIENT_SECRET
+  export HCP_CLIENT_SECRET
+fi
+
 packer_source_dir="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 sudo update-binfmts --import
 
 # Assume that the ARM builder plugin is installed in the current user's homedir
 pushd "${packer_source_dir}"
-sudo env "PATH=${PATH}" PACKER_PLUGIN_PATH="${HOME}/.config/packer/plugins" packer \
+sudo -E env "PATH=${PATH}" PACKER_PLUGIN_PATH="${HOME}/.config/packer/plugins" packer \
   build \
   -var-file "${packer_source_dir}/params/${base}.pkrvars.hcl" \
   -var-file "${packer_source_dir}/params/${role}.pkrvars.hcl" \

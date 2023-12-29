@@ -28,6 +28,7 @@ k3s_service_cidr_v4: '10.1.0.0/16'
 k3s_service_cidr_v6: 'fde6:addd:5088:1::/112'
 
 k3s_addons:
+  # Install ArgoCD and create an app-of-apps to bootstrap the cluster
   argo.yaml: |-
     apiVersion: v1
     kind: Namespace
@@ -64,3 +65,30 @@ k3s_addons:
         automated:
           prune: true
           selfHeal: true
+  # Create Vault credentials so that we can access secrets. Ideally we'd do this
+  # with ArgoCD, but there's no good way to do this that avoids the chicken-and-egg
+  # problem: if we were to store these secrets in Git, we'd need another secrets
+  # operator (or equivalent, e.g. KSOPS), but we'd have to get the key for those
+  # somewhere the cluster can access.
+  #
+  # Arguably the better way to do this would be to have a manual set-up step
+  # where we 'kubectl create' the secret ourselves, but I want setting up the
+  # cluster to be a *completely* hands-free experience: flash the image, then
+  # sit back and sip espresso.
+  #
+  # This does mean that the image becomes sensitive, but that shouldn't be an
+  # issue as long as we have vague physical security.
+  vault.yaml: |-
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+      name: vault-secrets-operator
+    ---
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: vault-secrets-operator-auth
+      namespace: vault-secrets-operator
+    stringData:
+      clientID: {{ lookup('ansible.builtin.env', 'HCP_CLIENT_ID') }}
+      clientSecret: {{ lookup('ansible.builtin.env', 'HCP_CLIENT_SECRET') }}
