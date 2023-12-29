@@ -6,4 +6,4 @@ version: 0.0.0
 dependencies:
   - name: vault-secrets-operator
     version: 0.4.2
-    repository: hashicorp/vault-secrets-operator
+    repository: https://helm.releases.hashicorp.com
