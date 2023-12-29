@@ -1,0 +1,9 @@
+apiVersion: v2
+name: victoria-metrics
+description: VictoriaMetrics stack containing Grafana, VM K8s operator, etc.
+version: 0.0.0
+
+dependencies:
+  - name: victoria-metrics-k8s-stack
+    version: 0.18.10
+    repository: https://victoriametrics.github.io/helm-charts/

@@ -1,0 +1,6 @@
+victoria-metrics-k8s-stack:
+  grafana:
+    ingress:
+      enabled: true
+      hosts:
+        - grafana.pi.davejbax.co.uk

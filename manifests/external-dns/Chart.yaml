@@ -1,0 +1,9 @@
+apiVersion: v2
+name: external-dns
+description: External-DNS for creating DNS records outside of the cluster
+version: 0.0.0
+
+dependencies:
+  - name: external-dns
+    version: 1.13.1
+    repository: https://kubernetes-sigs.github.io/external-dns/

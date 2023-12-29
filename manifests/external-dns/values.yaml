@@ -1,0 +1,9 @@
+external-dns:
+  env:
+    - name: CF_API_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: cloudflare-api-credentials
+          key: token
+  provider:
+    name: cloudflare

@@ -1,0 +1,4 @@
+apiVersion: v2
+name: cloudflare-api-credentials
+description: Credentials for the Cloudflare API
+version: 0.0.0
