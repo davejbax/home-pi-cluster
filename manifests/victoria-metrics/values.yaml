@@ -1,4 +1,5 @@
 victoria-metrics-k8s-stack:
+  fullnameOverride: vm
   grafana:
     ingress:
       enabled: true
@@ -11,3 +12,8 @@ victoria-metrics-k8s-stack:
         - secretName: grafana-cert
           hosts:
             - grafana.pi.davejbax.co.uk
+    admin:
+      existingSecret: grafana-admin-credentials
+      # Vault Secrets does not like dashes (defaults are 'admin-{user,password}')
+      userKey: admin_user
+      passwordKey: admin_password
