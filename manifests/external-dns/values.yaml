@@ -5,5 +5,4 @@ external-dns:
         secretKeyRef:
           name: cloudflare-api-credentials
           key: token
-  provider:
-    name: cloudflare
+  provider: cloudflare
