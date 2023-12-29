@@ -1,0 +1,10 @@
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: HCPVaultSecretsApp
+metadata:
+  name: tailscale-operator-oauth
+spec:
+  appName: tailscale-operator-oauth
+  destination:
+    # This name is expected by the tailscale-operator Helm chart
+    name: operator-oauth
+    create: true
