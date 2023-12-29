@@ -4,3 +4,10 @@ victoria-metrics-k8s-stack:
       enabled: true
       hosts:
         - grafana.pi.davejbax.co.uk
+      ingressClassName: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
+      tls:
+        - secretName: grafana-cert
+          hosts:
+            - grafana.pi.davejbax.co.uk
