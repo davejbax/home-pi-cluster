@@ -2,9 +2,15 @@ apiVersion: secrets.hashicorp.com/v1beta1
 kind: HCPVaultSecretsApp
 metadata:
   name: tailscale-operator-oauth
+  namespace: vault-secrets-operator
 spec:
   appName: tailscale-operator-oauth
   destination:
     # This name is expected by the tailscale-operator Helm chart
     name: operator-oauth
+    annotations:
+      reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: tailscale-operator
+      reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: tailscale-operator
     create: true
