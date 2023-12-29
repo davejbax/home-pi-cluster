@@ -1,0 +1,4 @@
+vsoConfig:
+  hcpOrgID: afcc3a09-f65d-4aaa-a28d-7c2480c03f7a
+  hcpProjectID: d59817d7-f0e9-4236-9aa2-83390ad0bd61
+  servicePrincipalSecretRef: vault-secrets-operator-auth

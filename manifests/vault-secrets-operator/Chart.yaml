@@ -1,0 +1,9 @@
+apiVersion: 2
+name: vault-secrets-operator
+description: HCP Vault Secrets operator, to inject secrets into the cluster safely
+version: 0.0.0
+
+dependencies:
+  - name: vault-secrets-operator
+    version: 0.4.2
+    repository: hashicorp/vault-secrets-operator

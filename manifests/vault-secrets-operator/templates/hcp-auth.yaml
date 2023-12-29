@@ -1,0 +1,10 @@
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: HCPAuth
+metadata:
+  name: default
+  namespace: vault-secrets-operator
+spec:
+  organizationID: {{ required "Must specify HCP organization ID (vsoConfig.hcpOrgID)" .Values.vsoConfig.hcpOrgID }}
+  projectID: {{ required "Must specify HCP project ID (vsoConfig.hcpProjectID)" .Values.vsoConfig.hcpProjectID }}
+  servicePrincipal:
+    secretRef: {{ required "Must specify secret ref for service principal credentials (vsoConfig.servicePrincipalSecretRef)" .Values.vsoConfig.servicePrincipalSecretRef }}
