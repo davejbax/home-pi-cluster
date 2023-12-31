@@ -48,6 +48,13 @@
     owner: root
     group: root
   loop: '{{ k3s_addons | dict2items }}'
+- name: Create local storage directory
+  ansible.builtin.file:
+    path: '{{ k3s_local_storage_path }}'
+    state: directory
+    mode: '0700'
+    owner: root
+    group: root
 - name: Enable k3s
   ansible.builtin.systemd:
     name: k3s.service

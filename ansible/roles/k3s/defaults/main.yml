@@ -24,3 +24,6 @@ k3s_addons:
     kind: Namespace
     metadata:
       name: example
+
+# Storage path for the Rancher local storage PV provisioner
+k3s_local_storage_path: '/var/lib/rancher/k3s/storage'

@@ -6,3 +6,5 @@ service-cidr: '{{ k3s_service_cidr_v4 }},{{ k3s_service_cidr_v6 }}'
 flannel-backend: host-gw
 
 datastore-endpoint: '{{ k3s_datastore_endpoint }}'
+
+default-local-storage-path: '{{ k3s_local_storage_path }}'
