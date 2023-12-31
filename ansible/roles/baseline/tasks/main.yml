@@ -8,3 +8,11 @@
 - name: Configure SSH
   ansible.builtin.import_tasks:
     file: ssh.yml
+- name: Write fstab
+  ansible.builtin.copy:
+    content: '{{ baseline_fstab }}'
+    dest: /etc/fstab
+    mode: '0644'
+    owner: root
+    group: root
+  when: baseline_fstab | length > 0
