@@ -29,3 +29,6 @@ postgres_server_users:
   - name: test
     databases: [test]
     cns: [test.mydomain.com]
+
+# Data directory to use for the DB storage itself
+postgres_server_data_directory: /var/lib/postgresql/14/main/

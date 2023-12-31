@@ -27,3 +27,12 @@
   ansible.builtin.include_tasks:
     file: server-bootstrap.yml
   when: postgres_server_bootstrap|length > 0
+- name: Create data directory (if not exists)
+  ansible.builtin.copy:
+    src: '/var/lib/postgresql/14/main/'
+    remote_src: true
+    dest: '{{ postgres_server_data_directory }}'
+    mode: '0750'
+    directory_mode: '0750'
+    owner: postgres
+    group: postgres
