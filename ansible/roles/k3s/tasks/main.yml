@@ -60,3 +60,11 @@
     name: k3s.service
     enabled: true
     daemon_reload: true
+- name: Install k9s
+  ansible.builtin.apt:
+    deb: https://github.com/derailed/k9s/releases/download/{{ k3s_k9s_version }}/k9s_linux_arm64.deb
+- name: Install kubectl
+  ansible.builtin.get_url:
+    url: https://dl.k8s.io/release/{{ k3s_release | split('+') | first }}/bin/linux/arm64/kubectl
+    dest: /usr/local/bin/kubectl
+    mode: '0755'

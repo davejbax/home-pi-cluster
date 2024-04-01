@@ -1,7 +1,7 @@
 ---
 # Release version of K3s, which can be found at
 # https://github.com/k3s-io/k3s/releases
-k3s_release: 'v1.27.5+k3s1'
+k3s_release: 'v1.29.3+k3s1'
 k3s_binary_name: 'k3s'
 
 # Role assigned to the host; can be 'server' (i.e. the primary k3s
@@ -27,3 +27,6 @@ k3s_addons:
 
 # Storage path for the Rancher local storage PV provisioner
 k3s_local_storage_path: '/var/lib/rancher/k3s/storage'
+
+# Version of k9s to install (Git tag)
+k3s_k9s_version: v0.32.4
