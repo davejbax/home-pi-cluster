@@ -11,6 +11,7 @@ variable "base_image_checksum_url" {
 variable "version" {
   type = string
   description = "The current version of the image"
+  default = null
 }
 
 variable "role" {

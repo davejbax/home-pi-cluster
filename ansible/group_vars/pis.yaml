@@ -1,4 +1,19 @@
 ---
+baseline_fstab: |-
+  LABEL=writable    /              ext4 discard,errors=remount-ro 0 1
+  LABEL=system-boot /boot/firmware vfat defaults                  0 0
+  LABEL=data        /data/internal ext4 defaults                  0 2
+  LABEL=data-ext    /data/external ext4 auto,nofail,noatime,rw    0 3
+
+# Grow internal data partition to full size of disk
+baseline_cloud_init_config: |-
+  growpart:
+    mode: auto
+    devices: ["/data/internal"]
+    ignore_growroot_disabled: false
+  runcmd:
+    - [resize2fs, /dev/sda4]
+
 postgres_ca_key: "{{ lookup('ansible.builtin.unvault', './pki/postgres.pi.davejbax.co.uk.key.enc') }}"
 postgres_ca_cert: "{{ lookup('ansible.builtin.file', './pki/postgres.pi.davejbax.co.uk.pem') }}"
 
@@ -17,10 +32,13 @@ postgres_server_bootstrap: >
   CREATE USER kubernetes;
   CREATE DATABASE kubernetes
     OWNER kubernetes;
+postgres_server_data_directory: '/data/internal/postgres'
 
 k3s_release: 'v1.28.2+k3s1'
 k3s_binary_name: 'k3s-arm64'
 k3s_datastore_endpoint: 'postgres://kubernetes@localhost/kubernetes?sslmode=verify-ca&sslcert=/etc/postgresql/14/main/certs/client.pem&sslkey=/etc/postgresql/14/main/certs/client.key&sslrootcert=/etc/postgresql/14/main/certs/ca.pem'
+
+k3s_local_storage_path: '/data/internal/k3s'
 
 k3s_cluster_cidr_v4: '10.0.0.0/16'
 k3s_cluster_cidr_v6: 'fde6:addd:5088:0::/56'
