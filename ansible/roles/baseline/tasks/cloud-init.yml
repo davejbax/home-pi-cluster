@@ -1,0 +1,8 @@
+- name: Create cloud-init config
+  ansible.builtin.copy:
+    content: '{{ baseline_cloud_init_config }}'
+    dest: /etc/cloud/cloud.cfg.d/impi.cfg
+    owner: root
+    group: root
+    mode: '0644'
+  when: baseline_cloud_init_config | length > 0

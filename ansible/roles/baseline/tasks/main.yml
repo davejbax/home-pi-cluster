@@ -8,6 +8,9 @@
 - name: Configure SSH
   ansible.builtin.import_tasks:
     file: ssh.yml
+- name: Configure cloud-init
+  ansible.builtin.import_tasks:
+    file: cloud-init.yml
 - name: Write fstab
   ansible.builtin.copy:
     content: '{{ baseline_fstab }}'

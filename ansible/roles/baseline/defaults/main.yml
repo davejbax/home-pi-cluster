@@ -10,3 +10,6 @@ baseline_users:
 
 # Overwrite /etc/fstab with custom contents; leave empty to avoid touching fstab.
 baseline_fstab: ''
+
+# Configure cloud-init
+baseline_cloud_init_config: ''
