@@ -34,7 +34,6 @@ postgres_server_bootstrap: >
     OWNER kubernetes;
 postgres_server_data_directory: '/data/internal/postgres'
 
-k3s_release: 'v1.28.2+k3s1'
 k3s_binary_name: 'k3s-arm64'
 k3s_datastore_endpoint: 'postgres://kubernetes@localhost/kubernetes?sslmode=verify-ca&sslcert=/etc/postgresql/14/main/certs/client.pem&sslkey=/etc/postgresql/14/main/certs/client.key&sslrootcert=/etc/postgresql/14/main/certs/ca.pem'
 
