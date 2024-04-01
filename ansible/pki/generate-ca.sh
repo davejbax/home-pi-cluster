@@ -11,7 +11,7 @@ create_key() {
 }
 
 org=${CA_ORG:-davejbax}
-root_cn=${CA_CN:-pi.davejbax.co.uk}
+root_cn=${CA_CN:-pie.boats}
 
 created_keys=()
 
@@ -35,8 +35,10 @@ echo
 for key_file in "${created_keys[@]}"; do
   ansible-vault encrypt \
     --vault-password-file <(cat <<<"${vault_pass}") \
+    --out "${key_file}.enc" \
+    --encrypt-vault-id default \
     "${key_file}" \
-    --out "${key_file}.enc" 2>/dev/null
+    2>/dev/null
   rm -rf "${key_file}"
 done
 

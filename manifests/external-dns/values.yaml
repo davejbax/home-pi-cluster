@@ -6,3 +6,9 @@ external-dns:
           name: cloudflare-api-credentials
           key: token
   provider: cloudflare
+  sources:
+    - service
+    - ingress
+    - node
+  fqdnTemplates:
+    - '{{.Name}}.node.pie.boats'

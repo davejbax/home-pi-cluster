@@ -4,14 +4,14 @@ victoria-metrics-k8s-stack:
     ingress:
       enabled: true
       hosts:
-        - grafana.pi.davejbax.co.uk
+        - grafana.pie.boats
       ingressClassName: traefik
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
       tls:
         - secretName: grafana-cert
           hosts:
-            - grafana.pi.davejbax.co.uk
+            - grafana.pie.boats
     admin:
       existingSecret: grafana-admin-credentials
       # Vault Secrets does not like dashes (defaults are 'admin-{user,password}')

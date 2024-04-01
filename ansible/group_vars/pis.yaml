@@ -14,8 +14,8 @@ baseline_cloud_init_config: |-
   runcmd:
     - [resize2fs, /dev/sda4]
 
-postgres_ca_key: "{{ lookup('ansible.builtin.unvault', './pki/postgres.pi.davejbax.co.uk.key.enc') }}"
-postgres_ca_cert: "{{ lookup('ansible.builtin.file', './pki/postgres.pi.davejbax.co.uk.pem') }}"
+postgres_ca_key: "{{ lookup('ansible.builtin.unvault', './pki/postgres.pie.boats.key.enc') }}"
+postgres_ca_cert: "{{ lookup('ansible.builtin.file', './pki/postgres.pie.boats.pem') }}"
 
 postgres_cert_cn_prefix: "{{ k3s_role }}"
 postgres_cert_owner: "{{ 'postgres' if k3s_role == 'server' else 'root' }}"
@@ -26,8 +26,8 @@ postgres_server_users:
   - name: kubernetes
     databases: [kubernetes]
     cns:
-      - agent.postgres.pi.davejbax.co.uk
-      - server.postgres.pi.davejbax.co.uk
+      - agent.postgres.pie.boats
+      - server.postgres.pie.boats
 postgres_server_bootstrap: >
   CREATE USER kubernetes;
   CREATE DATABASE kubernetes
