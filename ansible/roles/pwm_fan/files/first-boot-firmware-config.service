@@ -1,6 +1,5 @@
 [Unit]
 Description=Configure Raspberry Pi firmware config on first boot
-ConditionFirstBoot=yes
 
 [Service]
 Type=oneshot
