@@ -1,6 +1,6 @@
 # Home Pi Cluster
 
-![](./docs/logo.png)
+<img src="./docs/logo.png" alt="Home Pi Cluster logo" width="600" />
 
 An [immutable infrastructure](https://www.hashicorp.com/resources/what-is-mutable-vs-immutable-infrastructure) & [GitOps](https://www.redhat.com/en/topics/devops/what-is-gitops) approach to a home Kubernetes cluster. This is largely an experiment for fun and learning, with the following aims:
 
