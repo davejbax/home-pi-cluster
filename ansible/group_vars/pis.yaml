@@ -62,6 +62,17 @@ k3s_addons:
       repo: https://argoproj.github.io/argo-helm
       chart: argo-cd
       targetNamespace: argocd
+      valuesContent: |-
+        # Disable dex and notifications: we don't need them, and it's extra memory
+        dex:
+          enabled: false
+        notifications:
+          enabled: false
+        config:
+          params:
+            # Trade slower syncs for less memory usage
+            "controller.operation.processors": 5
+            "controller.status.processors": 10
     ---
     apiVersion: argoproj.io/v1alpha1
     kind: Application
