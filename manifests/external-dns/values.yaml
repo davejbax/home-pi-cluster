@@ -10,5 +10,5 @@ external-dns:
     - service
     - ingress
     - node
-  fqdnTemplates:
-    - '{{.Name}}.node.pie.boats'
+  extraArgs:
+    - '--fqdn-template={{.Name}}.node.pie.boats'
