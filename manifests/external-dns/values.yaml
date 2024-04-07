@@ -12,3 +12,4 @@ external-dns:
     - node
   extraArgs:
     - '--fqdn-template={{.Name}}.node.pie.boats'
+  logLevel: debug
