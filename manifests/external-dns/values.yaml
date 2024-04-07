@@ -10,6 +10,4 @@ external-dns:
     - service
     - ingress
     - node
-  extraArgs:
-    - '--fqdn-template={{.Name}}.node.pie.boats'
   logLevel: debug
