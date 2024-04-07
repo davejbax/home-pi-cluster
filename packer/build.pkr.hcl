@@ -29,7 +29,7 @@ source "arm" "debian" {
 
   image_partitions {
     filesystem = "vfat"
-    mountpoint = "/boot"
+    mountpoint = "/boot/firmware"
     name = "boot"
     size = "256MiB"
     type = "c"

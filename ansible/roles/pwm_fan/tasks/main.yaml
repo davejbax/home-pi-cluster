@@ -1,0 +1,10 @@
+---
+- name: Add PWM fan to config.txt
+  community.general.ini_file:
+    path: /boot/firmware/config.txt
+    section: all
+    option: dtoverlay
+    no_extra_spaces: true
+    exclusive: false
+    value: 'gpio-fan,gpiopin={{ pwm_fan_gpio_pin }},temp={{ pwm_fan_temp }}'
+    mode: '0644'
