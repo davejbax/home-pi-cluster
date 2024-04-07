@@ -30,3 +30,6 @@ k3s_local_storage_path: '/var/lib/rancher/k3s/storage'
 
 # Version of k9s to install (Git tag)
 k3s_k9s_version: v0.32.4
+
+# Suffix to append to hostname to form Node name ("$(hostname)$k3s_node_suffix")
+k3s_node_suffix: ''

@@ -44,6 +44,8 @@ k3s_cluster_cidr_v6: 'fde6:addd:5088:0::/56'
 k3s_service_cidr_v4: '10.1.0.0/16'
 k3s_service_cidr_v6: 'fde6:addd:5088:1::/112'
 
+k3s_node_suffix: '.node.pie.boats'
+
 k3s_addons:
   # Install ArgoCD and create an app-of-apps to bootstrap the cluster
   argo.yaml: |-
