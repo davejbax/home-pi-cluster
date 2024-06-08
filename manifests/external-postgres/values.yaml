@@ -3,7 +3,7 @@ ext-postgres-operator:
     host: pi-0.node.pie.boats
     user: operator
     password: ''
-    uri_args: 'sslmode=verify-ca&sslcert=/certs/cert.pem&sslkey=/certs/cert.key&sslrootcert=/etc/postgresql/14/main/certs/ca.pem'
+    uri_args: 'sslmode=verify-ca&sslcert=/certs/cert.pem&sslkey=/certs/cert.key&sslrootcert=/certs/ca.pem'
   nodeSelector:
     node-role.kubernetes.io/master: 'true'
   volumes:
@@ -29,3 +29,7 @@ ext-postgres-operator:
     - mountPath: /certs/ca.pem
       name: ca
       readOnly: true
+  podSecurityContext:
+    fsGroup: 10478
+    runAsUser: 10478
+    runAsGroup: 10478

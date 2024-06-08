@@ -20,7 +20,7 @@ postgres_ca_cert: "{{ lookup('ansible.builtin.file', './pki/postgres.pie.boats.p
 postgres_cert_cn_prefix: "{{ k3s_role }}"
 postgres_cert_owner: "{{ 'postgres' if k3s_role == 'server' else 'root' }}"
 postgres_cert_group: "{{ 'postgres' if k3s_role == 'server' else 'root' }}"
-postgres_cert_additional: "{{ [{ 'cn': 'operator.postgres.pie.boats' }] if k3s_role == 'server' else 'root' }}"
+postgres_cert_additional: "{{ [{ 'cn': 'operator.postgres.pie.boats', 'owner': '10478', 'mode': '0400' }] if k3s_role == 'server' else 'root' }}"
 
 postgres_configure_server: "{{ true if k3s_role == 'server' else false }}"
 postgres_server_users:
