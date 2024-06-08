@@ -32,3 +32,11 @@ postgres_server_users:
 
 # Data directory to use for the DB storage itself
 postgres_server_data_directory: /var/lib/postgresql/14/main/
+
+# Additional Postgres client certificates to generate
+# These will be created in /etc/postgresql/14/main/certs/<CN>.{key,pem}
+postgres_cert_additional: []
+  # - cn: operator.server.postgres.pie.boats
+  #   owner: root
+  #   group: root
+  #   mode: '0600'

@@ -20,6 +20,7 @@ postgres_ca_cert: "{{ lookup('ansible.builtin.file', './pki/postgres.pie.boats.p
 postgres_cert_cn_prefix: "{{ k3s_role }}"
 postgres_cert_owner: "{{ 'postgres' if k3s_role == 'server' else 'root' }}"
 postgres_cert_group: "{{ 'postgres' if k3s_role == 'server' else 'root' }}"
+postgres_cert_additional: "{{ [{ 'cn': 'operator.postgres.pie.boats' }] if k3s_role == 'server' else 'root' }}"
 
 postgres_configure_server: "{{ true if k3s_role == 'server' else false }}"
 postgres_server_users:
@@ -28,10 +29,16 @@ postgres_server_users:
     cns:
       - agent.postgres.pie.boats
       - server.postgres.pie.boats
+  - name: operator
+    databases: [all]
+    cns:
+      - operator.postgres.pie.boats
 postgres_server_bootstrap: >
   CREATE USER kubernetes;
   CREATE DATABASE kubernetes
     OWNER kubernetes;
+  
+  CREATE USER operator WITH CREATEDB CREATEROLE;
 postgres_server_data_directory: '/data/internal/postgres'
 
 k3s_binary_name: 'k3s-arm64'

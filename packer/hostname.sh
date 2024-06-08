@@ -24,3 +24,5 @@ echo "::1 ${hostname}" >> "${mountpoint}/etc/hosts"
 umount "${mountpoint}"
 losetup -d /dev/loop0
 rm -d "${mountpoint}"
+
+mv "${image}" "${hostname}.${image}"
