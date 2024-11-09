@@ -5,3 +5,4 @@ version: 0.0.0
 dependencies:
   - name: host-services-proxy
     version: 0.0.0
+    alias: postgres

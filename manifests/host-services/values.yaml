@@ -1,0 +1,6 @@
+postgres:
+  ports:
+    - name: postgres
+      port: 5432
+  nodeSelector:
+    node-role.kubernetes.io/master: "true"
