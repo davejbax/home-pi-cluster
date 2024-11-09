@@ -31,9 +31,9 @@ source "arm" "debian" {
     filesystem   = "vfat"
     mountpoint   = "/boot/firmware"
     name         = "boot"
-    size         = "512MiB"
+    size         = "${var.base_image_partition_layout.boot_size_mib}MiB"
     type         = "c"
-    start_sector = 1 * local.mib_in_sectors
+    start_sector = var.base_image_partition_layout.boot_start_sector
     skip_mkfs    = true
   }
 
@@ -43,7 +43,7 @@ source "arm" "debian" {
     name         = "root"
     size         = "20480MiB"
     type         = "83"
-    start_sector = 513 * local.mib_in_sectors
+    start_sector = var.base_image_partition_layout.root_start_sector
     resize_fs    = true
     skip_mkfs    = true
   }
@@ -54,7 +54,7 @@ source "arm" "debian" {
     name                    = "hotswap"
     size                    = "20480MiB"
     type                    = "83"
-    start_sector            = 20737 * local.mib_in_sectors
+    start_sector            = 0 # choose automatically
     resize_fs               = true
   }
 
@@ -65,7 +65,7 @@ source "arm" "debian" {
     name                    = "data"
     size                    = "0"
     type                    = "83"
-    start_sector            = 41217 * local.mib_in_sectors
+    start_sector            = 0 # choose automatically
     resize_fs               = true
   }
 
