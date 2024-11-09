@@ -21,3 +21,6 @@ victoria-metrics-k8s-stack:
       # Vault Secrets does not like dashes (defaults are 'admin-{user,password}')
       userKey: admin_user
       passwordKey: admin_password
+  defaultDashboards:
+    annotations:
+      argocd.argoproj.io/sync-options: ServerSideApply=true
