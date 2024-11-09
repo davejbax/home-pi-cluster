@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-role="${1:?"Usage: ${0} <role> [base]"}"
+role="${1:?"Usage: ${0} {server|agent} [base]"}"
 base="${2:-ubuntu}"
 
 if [[ -z "${ANSIBLE_VAULT_PASSWORD_FILE-}" ]]; then
