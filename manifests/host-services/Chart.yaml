@@ -1,0 +1,7 @@
+apiVersion: v2
+name: host-services
+description: External Postgres operator for managing databases in-cluster
+version: 0.0.0
+dependencies:
+  - name: host-services-proxy
+    version: 0.0.0
