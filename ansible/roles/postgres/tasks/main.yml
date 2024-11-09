@@ -2,7 +2,7 @@
 # We may want to make use of the postgres user in cert configuration, so install first
 - name: Install Postgres
   ansible.builtin.apt:
-    name: postgresql-14
+    name: postgresql-{{ postgres_version }}
     state: present
   when: postgres_configure_server
 - name: Configure certificates

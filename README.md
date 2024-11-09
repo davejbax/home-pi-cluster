@@ -60,6 +60,9 @@ the labels on the partitions are swapped (`root` becomes `hotswap`, `hotswap` be
   go build -o ~/.config/packer/plugins/packer-builder-arm
   ```
 
+* [resize2fs >= v1.47.1](https://e2fsprogs.sourceforge.net/)
+  * Required due to Ubuntu base image needing EXT4_FEATURE_COMPAT_ORPHAN_FILE
+
 ## External setup
 
 * Tailscale

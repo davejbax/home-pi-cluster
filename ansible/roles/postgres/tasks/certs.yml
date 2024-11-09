@@ -1,65 +1,65 @@
 - name: Create certs directory
   ansible.builtin.file:
-    path: /etc/postgresql/14/main/certs
+    path: /etc/postgresql/{{ postgres_version }}/main/certs
     state: directory
-    mode: '0750'
-    owner: '{{ postgres_cert_owner }}'
-    group: '{{ postgres_cert_group }}'
+    mode: "0750"
+    owner: "{{ postgres_cert_owner }}"
+    group: "{{ postgres_cert_group }}"
 - name: Add CA cert
   ansible.builtin.copy:
-    content: '{{ postgres_ca_cert }}'
-    dest: /etc/postgresql/14/main/certs/ca.pem
-    mode: '0644'
-    owner: '{{ postgres_cert_owner }}'
-    group: '{{ postgres_cert_group }}'
+    content: "{{ postgres_ca_cert }}"
+    dest: /etc/postgresql/{{ postgres_version }}/main/certs/ca.pem
+    mode: "0644"
+    owner: "{{ postgres_cert_owner }}"
+    group: "{{ postgres_cert_group }}"
 - name: Read CA cert
   community.crypto.x509_certificate_info:
-    content: '{{ postgres_ca_cert }}'
+    content: "{{ postgres_ca_cert }}"
   register: postgres_ca_cert_info
 - name: Generate client cert - private key
   community.crypto.openssl_privatekey:
-    path: /etc/postgresql/14/main/certs/client.key
-    owner: '{{ postgres_cert_owner }}'
-    group: '{{ postgres_cert_group }}'
-    mode: '0600'
+    path: /etc/postgresql/{{ postgres_version }}/main/certs/client.key
+    owner: "{{ postgres_cert_owner }}"
+    group: "{{ postgres_cert_group }}"
+    mode: "0600"
 - name: Generate client cert - CSR
   community.crypto.openssl_csr_pipe:
-    privatekey_path: /etc/postgresql/14/main/certs/client.key
+    privatekey_path: /etc/postgresql/{{ postgres_version }}/main/certs/client.key
     common_name: '{{ postgres_cert_cn_prefix }}.{{ postgres_ca_cert_info.subject["commonName"] }}'
   register: postgres_client_cert_csr
 - name: Generate client cert - signed certificate
   community.crypto.x509_certificate:
-    path: /etc/postgresql/14/main/certs/client.pem
-    owner: '{{ postgres_cert_owner }}'
-    group: '{{ postgres_cert_group }}'
-    mode: '0644'
+    path: /etc/postgresql/{{ postgres_version }}/main/certs/client.pem
+    owner: "{{ postgres_cert_owner }}"
+    group: "{{ postgres_cert_group }}"
+    mode: "0644"
     provider: ownca
-    ownca_content: '{{ postgres_ca_cert }}'
-    ownca_privatekey_content: '{{ postgres_ca_key }}'
-    csr_content: '{{ postgres_client_cert_csr.csr }}'
+    ownca_content: "{{ postgres_ca_cert }}"
+    ownca_privatekey_content: "{{ postgres_ca_key }}"
+    csr_content: "{{ postgres_client_cert_csr.csr }}"
 - name: Generate extra certs - key
   community.crypto.openssl_privatekey:
-    path: /etc/postgresql/14/main/certs/{{ item.cn }}.key
+    path: /etc/postgresql/{{ postgres_version }}/main/certs/{{ item.cn }}.key
     owner: "{{ item.owner | default('root') }}"
     group: "{{ item.group | default('root') }}"
     mode: "{{ item.mode | default('0600') }}"
   loop: "{{ postgres_cert_additional }}"
 - name: Generate extra certs - CSR
   community.crypto.openssl_csr_pipe:
-    privatekey_path: /etc/postgresql/14/main/certs/{{ item.cn }}.key
-    common_name: '{{ item.cn }}'
+    privatekey_path: /etc/postgresql/{{ postgres_version }}/main/certs/{{ item.cn }}.key
+    common_name: "{{ item.cn }}"
   register: postgres_extra_cert_csr
   loop: "{{ postgres_cert_additional }}"
 - name: Generate extra certs - signed certificate
   community.crypto.x509_certificate:
-    path: /etc/postgresql/14/main/certs/{{ item.cn }}.pem
+    path: /etc/postgresql/{{ postgres_version }}/main/certs/{{ item.cn }}.pem
     owner: "{{ item.owner | default('root') }}"
     group: "{{ item.group | default('root') }}"
     mode: "{{ item.mode | default('0600') }}"
     provider: ownca
-    ownca_content: '{{ postgres_ca_cert }}'
-    ownca_privatekey_content: '{{ postgres_ca_key }}'
-    csr_content: '{{ postgres_extra_cert_csr.results[item_index].csr }}'
+    ownca_content: "{{ postgres_ca_cert }}"
+    ownca_privatekey_content: "{{ postgres_ca_key }}"
+    csr_content: "{{ postgres_extra_cert_csr.results[item_index].csr }}"
   loop: "{{ postgres_cert_additional }}"
   loop_control:
     index_var: item_index

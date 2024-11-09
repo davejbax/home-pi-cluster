@@ -37,21 +37,20 @@ postgres_server_bootstrap: >
   CREATE USER kubernetes;
   CREATE DATABASE kubernetes
     OWNER kubernetes;
-  
+
   CREATE USER operator WITH CREATEDB CREATEROLE;
-postgres_server_data_directory: '/data/internal/postgres'
+postgres_server_data_directory: "/data/internal/postgres"
+k3s_binary_name: "k3s-arm64"
+k3s_datastore_endpoint: "postgres://kubernetes@localhost/kubernetes?sslmode=verify-ca&sslcert=/etc/postgresql/{{ postgres_version}}/main/certs/client.pem&sslkey=/etc/postgresql/{{ postgres_version}}/main/certs/client.key&sslrootcert=/etc/postgresql/{{ postgres_version}}/main/certs/ca.pem"
 
-k3s_binary_name: 'k3s-arm64'
-k3s_datastore_endpoint: 'postgres://kubernetes@localhost/kubernetes?sslmode=verify-ca&sslcert=/etc/postgresql/14/main/certs/client.pem&sslkey=/etc/postgresql/14/main/certs/client.key&sslrootcert=/etc/postgresql/14/main/certs/ca.pem'
+k3s_local_storage_path: "/data/internal/k3s"
 
-k3s_local_storage_path: '/data/internal/k3s'
+k3s_cluster_cidr_v4: "10.0.0.0/16"
+k3s_cluster_cidr_v6: "fde6:addd:5088:0::/56"
+k3s_service_cidr_v4: "10.1.0.0/16"
+k3s_service_cidr_v6: "fde6:addd:5088:1::/112"
 
-k3s_cluster_cidr_v4: '10.0.0.0/16'
-k3s_cluster_cidr_v6: 'fde6:addd:5088:0::/56'
-k3s_service_cidr_v4: '10.1.0.0/16'
-k3s_service_cidr_v6: 'fde6:addd:5088:1::/112'
-
-k3s_node_suffix: '.node.pie.boats'
+k3s_node_suffix: ".node.pie.boats"
 
 k3s_addons:
   # Install ArgoCD and create an app-of-apps to bootstrap the cluster

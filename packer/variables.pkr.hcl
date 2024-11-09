@@ -8,7 +8,7 @@ variable "base_image_checksum_url" {
   description = "URL to the checksum file for the base image; must be SHA256."
 }
 
-variable "base_image_partiton_layout" {
+variable "base_image_partition_layout" {
   type = object({
     boot_start_sector = number
     boot_size_mib     = number

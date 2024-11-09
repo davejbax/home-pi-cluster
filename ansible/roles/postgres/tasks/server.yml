@@ -1,24 +1,24 @@
 - name: Configure Postgres - HBA
   ansible.builtin.template:
     src: pg_hba.conf.j2
-    dest: /etc/postgresql/14/main/pg_hba.conf
+    dest: /etc/postgresql/{{ postgres_version }}/main/pg_hba.conf
     owner: postgres
     group: postgres
-    mode: '0640'
+    mode: "0640"
 - name: Configure Postgres - Identies
   ansible.builtin.template:
     src: pg_ident.conf.j2
-    dest: /etc/postgresql/14/main/pg_ident.conf
+    dest: /etc/postgresql/{{ postgres_version }}/main/pg_ident.conf
     owner: postgres
     group: postgres
-    mode: '0644'
+    mode: "0644"
 - name: Configure Postgres - Main config
   ansible.builtin.template:
     src: postgres.conf.j2
-    dest: /etc/postgresql/14/main/conf.d/00-ansible.conf
+    dest: /etc/postgresql/{{ postgres_version }}/main/conf.d/00-ansible.conf
     owner: postgres
     group: postgres
-    mode: '0644'
+    mode: "0644"
 - name: Enable Postgres service
   ansible.builtin.systemd:
     name: postgresql
@@ -29,10 +29,10 @@
   when: postgres_server_bootstrap|length > 0
 - name: Create data directory (if not exists)
   ansible.builtin.copy:
-    src: '/var/lib/postgresql/14/main/'
+    src: "/var/lib/postgresql/{{ postgres_version }}/main/"
     remote_src: true
-    dest: '{{ postgres_server_data_directory }}'
-    mode: '0750'
-    directory_mode: '0750'
+    dest: "{{ postgres_server_data_directory }}"
+    mode: "0750"
+    directory_mode: "0750"
     owner: postgres
     group: postgres

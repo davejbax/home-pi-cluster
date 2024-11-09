@@ -31,12 +31,15 @@ postgres_server_users:
     cns: [test.mydomain.com]
 
 # Data directory to use for the DB storage itself
-postgres_server_data_directory: /var/lib/postgresql/14/main/
+postgres_server_data_directory: /var/lib/postgresql/{{ postgres_version }}/main/
 
 # Additional Postgres client certificates to generate
-# These will be created in /etc/postgresql/14/main/certs/<CN>.{key,pem}
+# These will be created in /etc/postgresql/<version>/main/certs/<CN>.{key,pem}
 postgres_cert_additional: []
   # - cn: operator.server.postgres.pie.boats
   #   owner: root
   #   group: root
   #   mode: '0600'
+
+# Major version of Postgresql
+postgres_version: 16
