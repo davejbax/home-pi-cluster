@@ -12,61 +12,61 @@ locals {
 }
 
 source "arm" "debian" {
-  file_urls = [var.base_image_url]
-  file_checksum_url = var.base_image_checksum_url
-  file_checksum_type = "sha256"
+  file_urls             = [var.base_image_url]
+  file_checksum_url     = var.base_image_checksum_url
+  file_checksum_type    = "sha256"
   file_target_extension = "img.xz"
-  file_unarchive_cmd = ["xz", "--keep", "--decompress", "$ARCHIVE_PATH"]
+  file_unarchive_cmd    = ["xz", "--keep", "--decompress", "$ARCHIVE_PATH"]
 
   # We need to use resize mode, because we end up installing more than the
   # stock image comes with in terms of free space (it has ~1.1GiB free!)
   image_build_method = "repartition"
-  image_path = "raspi-4-impi-${local.version}-${var.role}.img"
-  image_size = "42G"
+  image_path         = "raspi-4-impi-${local.version}-${var.role}.img"
+  image_size         = "42G"
 
   # We need to use MBR as the Pi uses an MBR scheme
   image_type = "dos"
 
   image_partitions {
-    filesystem = "vfat"
-    mountpoint = "/boot/firmware"
-    name = "boot"
-    size = "256MiB"
-    type = "c"
+    filesystem   = "vfat"
+    mountpoint   = "/boot/firmware"
+    name         = "boot"
+    size         = "512MiB"
+    type         = "c"
     start_sector = 1 * local.mib_in_sectors
-    skip_mkfs = true
+    skip_mkfs    = true
   }
 
   image_partitions {
-    filesystem = "ext4"
-    mountpoint = "/"
-    name = "root"
-    size = "20480MiB"
-    type = "83"
-    start_sector = 257 * local.mib_in_sectors
-    resize_fs = true
-    skip_mkfs = true
+    filesystem   = "ext4"
+    mountpoint   = "/"
+    name         = "root"
+    size         = "20480MiB"
+    type         = "83"
+    start_sector = 513 * local.mib_in_sectors
+    resize_fs    = true
+    skip_mkfs    = true
   }
 
   image_partitions {
-    filesystem = "ext4"
+    filesystem              = "ext4"
     filesystem_make_options = ["-L", "hotswap"]
-    name = "hotswap"
-    size = "20480MiB"
-    type = "83"
-    start_sector = 20737 * local.mib_in_sectors
-    resize_fs = true
+    name                    = "hotswap"
+    size                    = "20480MiB"
+    type                    = "83"
+    start_sector            = 20737 * local.mib_in_sectors
+    resize_fs               = true
   }
 
   image_partitions {
-    filesystem = "ext4"
+    filesystem              = "ext4"
     filesystem_make_options = ["-L", "data"]
-    mountpoint = "/data/internal"
-    name = "data"
-    size = "0"
-    type = "83"
-    start_sector = 41217 * local.mib_in_sectors
-    resize_fs = true
+    mountpoint              = "/data/internal"
+    name                    = "data"
+    size                    = "0"
+    type                    = "83"
+    start_sector            = 41217 * local.mib_in_sectors
+    resize_fs               = true
   }
 
   image_mount_path = "/mnt/raspi-build"
@@ -96,9 +96,9 @@ build {
       "--vault-password-file=${var.vault_password_file}",
     ]
     inventory_file = "../ansible/inventory.ini"
-    playbook_file = "../ansible/site.yml"
-    groups = ["pis", var.role] # XXX: don't think this does anything
-    galaxy_file = "../ansible/requirements.yml"
+    playbook_file  = "../ansible/site.yml"
+    groups         = ["pis", var.role] # XXX: don't think this does anything
+    galaxy_file    = "../ansible/requirements.yml"
   }
 
-} 
+}
