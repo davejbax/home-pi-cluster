@@ -1,5 +1,9 @@
 victoria-metrics-k8s-stack:
   fullnameOverride: vm
+  alertmanager:
+    enabled: false # Not needed for now
+  vmalert:
+    enabled: false # Not needed for now
   grafana:
     ingress:
       enabled: true
