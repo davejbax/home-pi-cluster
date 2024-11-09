@@ -1,6 +1,6 @@
 ext-postgres-operator:
   postgres:
-    host: pi-0.node.pie.boats
+    host: host-services-postgres.host-services.svc.cluster.local
     user: operator
     password: ""
     uri_args: "sslmode=verify-ca&sslcert=/certs/cert.pem&sslkey=/certs/cert.key&sslrootcert=/certs/ca.pem"
