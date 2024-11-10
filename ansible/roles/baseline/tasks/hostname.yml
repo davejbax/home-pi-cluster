@@ -1,0 +1,15 @@
+- name: Set hostname
+  ansible.builtin.copy:
+    content: '{{ baseline_hostname }}'
+    dest: /etc/hostname
+    mode: '0644'
+    owner: root
+    group: root
+- name: Add hosts entries
+  ansible.builtin.lineinfile:
+    line: '127.0.0.1 {{ baseline_hostname }}'
+    path: /etc/hosts
+- name: Add hosts entries
+  ansible.builtin.lineinfile:
+    line: '::1 {{ baseline_hostname }}'
+    path: /etc/hosts

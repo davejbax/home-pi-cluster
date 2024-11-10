@@ -8,3 +8,9 @@ flannel-backend: host-gw
 datastore-endpoint: '{{ k3s_datastore_endpoint }}'
 
 default-local-storage-path: '{{ k3s_local_storage_path }}'
+
+token-file: /etc/rancher/k3s/token
+
+{% if k3s_role == 'agent' %}
+server: '{{ k3s_server }}'
+{% endif %}

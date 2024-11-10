@@ -14,6 +14,13 @@ baseline_cloud_init_config: |-
   runcmd:
     - [resize2fs, /dev/sda4]
 
+# Hostname is pi-agent for agents by default, because we're only ever going to
+# have one server (probably?), so if we do forget to change a hostname, it's
+# more impactful on agents (as there may be multiple agents). Therefore, use
+# 'pi-agent', which it's assumed no running agents will be called (they should
+# have renamed themselves to pi-1, pi-2, etc.)
+baseline_hostname: "{{ 'pi-0' if k3s_role == 'server' else 'pi-agent' }}"
+
 postgres_ca_key: "{{ lookup('ansible.builtin.unvault', './pki/postgres.pie.boats.key.enc') }}"
 postgres_ca_cert: "{{ lookup('ansible.builtin.file', './pki/postgres.pie.boats.pem') }}"
 
@@ -51,6 +58,17 @@ k3s_service_cidr_v4: "10.1.0.0/16"
 k3s_service_cidr_v6: "fde6:addd:5088:1::/112"
 
 k3s_node_suffix: ".node.pie.boats"
+
+k3s_token: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  33336264663361346137363365623737333835666138383061613530663636373932356661616333
+  6534356133623037653638373034343637343564326562360a636665643261326530343337383835
+  36636237643839653034363334663361326364316666306232333564306534333063353761363363
+  6333366430633933640a326365623030666662323338633537326237353134323061323535323136
+  30356338353339346263393134623138313465633766356264393135653239313232343765323031
+  3637306261383138636632343466343637336665613565633634
+
+k3s_server: https://pi-0.node.pie.boats:6443
 
 k3s_addons:
   # Install ArgoCD and create an app-of-apps to bootstrap the cluster

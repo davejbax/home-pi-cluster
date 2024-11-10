@@ -13,3 +13,6 @@ baseline_fstab: ''
 
 # Configure cloud-init
 baseline_cloud_init_config: ''
+
+# Hostname to set; ignored if empty
+baseline_hostname: ''

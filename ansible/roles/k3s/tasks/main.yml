@@ -33,6 +33,13 @@
     mode: '0644'
     owner: root
     group: root
+- name: Copy k3s token
+  ansible.builtin.copy:
+    content: '{{ k3s_token }}'
+    dest: /etc/rancher/k3s/token
+    mode: '0600'
+    owner: root
+    group: root
 - name: Create addons directory
   ansible.builtin.file:
     path: /var/lib/rancher/k3s/server/manifests

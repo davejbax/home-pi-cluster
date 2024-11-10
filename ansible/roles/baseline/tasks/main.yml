@@ -11,6 +11,10 @@
 - name: Configure cloud-init
   ansible.builtin.import_tasks:
     file: cloud-init.yml
+- name: Configure hostname
+  ansible.builtin.import_tasks:
+    file: hostname.yml
+  when: baseline_hostname != ""
 - name: Write fstab
   ansible.builtin.copy:
     content: '{{ baseline_fstab }}'

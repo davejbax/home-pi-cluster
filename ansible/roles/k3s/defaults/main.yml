@@ -33,3 +33,9 @@ k3s_k9s_version: v0.32.4
 
 # Suffix to append to hostname to form Node name ("$(hostname)$k3s_node_suffix")
 k3s_node_suffix: ''
+
+# Token used to join nodes to the cluster; can be generated with `k3s token generate`
+k3s_token: ''
+
+# Server to join, if node is an agent node. Unused if server node.
+k3s_server: ''
